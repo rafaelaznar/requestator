@@ -16,3 +16,5 @@ import { AppComponent } from './app.component';
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
+// BUILD 4 PRODUCTION COMMAND: ng build --output-path docs --base-href /requestator/

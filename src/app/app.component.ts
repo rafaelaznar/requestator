@@ -17,7 +17,7 @@ export class AppComponent {
   urlBase: string = "";
   output: string = "";
   httpOptions: any = {};
-
+  contador:number=0;
 
   constructor(
     private http: HttpClient
@@ -94,6 +94,7 @@ export class AppComponent {
   }
   */
   buildResponseOK(method: string, c: any) {
+    this.output += this.contador + ".- ";
     this.output += '<span class="badge bg-success mx-1">OK</span>';
     this.output += '<span class="badge bg-secondary"> ' + method + '</span>';
     this.output += `<span> ${c.id} - ${c.description}</span>`;
@@ -101,6 +102,7 @@ export class AppComponent {
   }
 
   buildResponseFAIL(method: string, c: any) {
+    this.output += this.contador + ".- ";
     this.output += '<span class="badge bg-danger mx-1">FAIL</span>';
     this.output += '<span class="badge bg-secondary"> ' + method + '</span>';
     this.output += `<span> ${c.id} - ${c.description}</span>`;
@@ -118,7 +120,7 @@ export class AppComponent {
             this.http.get<any>(this.urlBase + c.url, this.httpOptions).subscribe({
               next: (data: any) => {
                 console.log('***GET', data);
-
+                this.contador++;
                 if (c.check_status == 200) {
                   this.buildResponseOK("GET", c)                  
                 } else {
@@ -129,13 +131,12 @@ export class AppComponent {
               },
               error: (error: HttpErrorResponse) => {
                 console.error('***GET -> ERROR', error);
-
+                this.contador++;
                 if (c.check_status == error.status) {
                   this.buildResponseOK("GET", c)
                 } else {
                   this.buildResponseFAIL("GET", c)
                 }
-
                 resolve();
               }
             });
@@ -143,8 +144,7 @@ export class AppComponent {
             this.http.post<any>(this.urlBase + c.url, c.payload, this.httpOptions).subscribe({
               next: (data: any) => {
                 console.log('***POST', data);
-
-
+                this.contador++;
                 if (c.check_status == 200) {
                   this.buildResponseOK("POST", c)
                 } else {
@@ -155,7 +155,7 @@ export class AppComponent {
               },
               error: (error: HttpErrorResponse) => {
                 console.error('***POST -> ERROR', error);
-
+                this.contador++;
                 if (c.check_status == error.status) {
                   this.buildResponseOK("POST", c)
                 } else {
@@ -169,7 +169,7 @@ export class AppComponent {
             this.http.put<any>(this.urlBase + c.url, c.payload, this.httpOptions).subscribe({
               next: (data: any) => {
                 console.log('***PUT', data);
-
+                this.contador++;
                 if (c.check_status == 200) {
                   this.buildResponseOK("PUT", c)
                 } else {
@@ -180,7 +180,7 @@ export class AppComponent {
               },
               error: (error: HttpErrorResponse) => {
                 console.error('***PUT -> ERROR', error);
-
+                this.contador++;
                 if (c.check_status == error.status) {
                   this.buildResponseOK("PUT", c)
                 } else {
@@ -194,7 +194,7 @@ export class AppComponent {
             this.http.delete<any>(this.urlBase + c.url, this.httpOptions).subscribe({
               next: (data: any) => {
                 console.log('***DELETE', data);
-
+                this.contador++;
                 if (c.check_status == 200) {
                   this.buildResponseOK("DELETE", c)
                 } else {
@@ -205,7 +205,7 @@ export class AppComponent {
               },
               error: (error: HttpErrorResponse) => {
                 console.error('***DELETE -> ERROR', error);
-
+                this.contador++;
                 if (c.check_status == error.status) {
                   this.buildResponseOK("DELETE", c)
                 } else {
