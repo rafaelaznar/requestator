@@ -8,7 +8,7 @@
 
       <div class="my-3">
         <label for="formFile" class="form-label" *ngIf="!fileText">Please, load script</label>
-        <input class="form-control" type="file" accept='text/plain' id="formFile" (change)="readFile($event)">
+        <input class="form-control" type="file" accept='text/plain' #formFile (change)="readFile($event)">
       </div>
 
       <div class="input-group my-3" *ngIf="fileText">
@@ -17,19 +17,21 @@
           [value]="urlBase">
       </div>
 
-      <div class="form-check my-3" *ngIf="fileText">
-        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" [checked]="withCredentials==true"
-          readonly>
-        <label class="form-check-label" for="flexCheckChecked">
-          With Credentials
-        </label>
+      <div class="input-group my-3" *ngIf="fileText">
+        <span class="input-group-text" id="basic-addon3">With Credentials</span>
+        <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3" disabled readonly
+          [value]="withCredentials">
       </div>
 
-      <a class="btn btn-primary mx-2 my-3" (click)="runTests2()" *ngIf="fileText">
+      <a class="btn btn-success mx-2 my-2" (click)="runTests2()" *ngIf="fileText">
         <i class="lni lni-play"></i> Run Tests
       </a>
 
-      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"
+      <a class="btn btn-danger mx-2 my-2" (click)="reset()" *ngIf="fileText">
+        <i class="lni lni-brush"></i> RESET
+      </a>
+
+      <button type="button" class="btn btn-primary mx-2 my-2" data-bs-toggle="modal" data-bs-target="#exampleModal"
         (click)="showScript()" *ngIf="fileText">
         <i class="lni lni-empty-file"></i> Show Script
       </button>
@@ -38,11 +40,22 @@
   </div>
   <div class="row justify-content-around">
     <div class="col-6 m-4">
-      <div [innerHTML]="output"></div>
-      
+      <div class="card"  *ngIf="nCounter>0">
+        <div class="card-header">
+          <h3>Results</h3>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col">
+              <div [innerHTML]="output" style="font-size: 0.8em"></div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
+
 
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
